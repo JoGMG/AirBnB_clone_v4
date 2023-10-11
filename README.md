@@ -154,12 +154,12 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
-Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
-Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)  
-Jhoan Zamora - [Github](https://github.com/jzamora5) / [Twitter](https://twitter.com/JhoanZamora10)  
-David Ovalle - [Github](https://github.com/Nukemenonai) / [Twitter](https://twitter.com/disartDave)
-Thierry BAKERA - [Github](https://github.com/CREDO236) / [Twitter](https://twitter/thierryBakera)
-Joshua Attah - [Github](https://github.com/JoGMG) / [Twitter](https://twitter/that_jogmg)
+Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)<br>
+Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)<br>
+Jhoan Zamora - [Github](https://github.com/jzamora5) / [Twitter](https://twitter.com/JhoanZamora10)<br>
+David Ovalle - [Github](https://github.com/Nukemenonai) / [Twitter](https://twitter.com/disartDave)<br>
+Thierry BAKERA - [Github](https://github.com/CREDO236) / [Twitter](https://twitter/thierryBakera)<br>
+Joshua Attah - [Github](https://github.com/JoGMG) / [Twitter](https://twitter/that_jogmg)<br>
 
 Second part of Airbnb: Joann Vuong
 ## License
