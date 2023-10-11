@@ -1,99 +1,90 @@
-div.container {
-    max-width: 1000px;
-    margin: 30px auto;
-}
-
 section.filters {
     background-color: white;
     height: 70px;
     width: 100%;
-    border: 1px solid #DDDDDD;
+    border: 2px solid #DDDDDD;
     border-radius: 4px;
 }
 
-section.filters button {
+button {
+    font-size: 18px;
     background-color: #FF5A5F;
+    color: #FFFFFF;
     height: 48px;
     width: 20%;
     border: 0;
     border-radius: 4px;
-    font-size: 18px;
-    color: #FFFFFF;
-    float: right;
     margin: 11px 30px;
+    float: right;
 }
 
-section.filters button:hover {
-    opacity: .9;
-}
-
-/* location and amenities part of search bar */
-.locations,
-section.filters .amenities {
-    height: 100%;
-    width: 25%;
-    float: left;
+button:hover {
+    opacity: 90%;
 }
 
 .locations {
-    border-right: 1px solid #DDDDDD;
+    border-right: #DDDDDD solid 2px;
+}
+
+.locations,
+.amenities {
+    height: 100%;
+    width: 30%;
+    float: left;
 }
 
 .locations h3,
 .amenities h3 {
     font-weight: 600;
-    font-size: 16px;
-    margin-top: 20px;
-    margin-bottom: 0px;
-    text-align: left;
+    margin-bottom: 0;
     margin-left: 30px;
-}
-
-.locations h3 {
-    height: 18px;
-    white-space: nowrap;
-    width: 50%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    text-align: left;
 }
 
 .locations h4,
 .amenities h4 {
     font-weight: 400;
     font-size: 14px;
-    height: 17px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin: 0px 0px 0px 30px;
     text-align: left;
-    margin-left: 30px;
     white-space: nowrap;
-    width: 80%;
+    width: 60%;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* display location and amenities options upon hover */
 .popover {
     display: none;
     background-color: #FAFAFA;
-    border: 1px solid #DDDDDD;
+    border: 1px solid hsl(0, 0%, 87%);
     border-radius: 4px;
     position: relative;
     z-index: 1;
+    text-align: left;
     margin-top: 15px;
+    padding: 5px 20px;
     overflow: auto;
     max-height: 300px;
 }
 
 .popover h2 {
     font-size: 16px;
-    margin-left: 0px;
+    margin-bottom: 10px;
+    margin-left: 15px;
 }
 
 li {
     list-style-type: none;
-    margin-top:10px;
+}
+
+.popover li {
+    margin-top: 10px;
     margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.locations .popover li {
+    margin-left: -5px;
 }
 
 .locations:hover .popover,

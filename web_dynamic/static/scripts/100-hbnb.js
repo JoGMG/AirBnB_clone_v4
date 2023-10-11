@@ -1,83 +1,120 @@
-document.ready(function () {
-	const HOST = "http://127.0.0.1:5001";
-	const amenities = {};
-	const cities = {};
-	const states = {};
+$(document).ready(function () {
 
-	$('ul li input[type="checkbox"]').bind("change", (e) => {
-		const el = e.target;
-		let tt;
-		switch (el.id) {
-			case "state_filter":
-				tt = states;
-				break;
-			case "city_filter":
-				tt = cities;
-				break;
-			case "amenity_filter":
-				tt = amenities;
-				break;
-		}
-		if (el.checked) {
-			tt[el.dataset.name] = el.dataset.id;
+	// Implements changes in input tag with type checkbox
+	const amenitiesDict = {};
+	$(".amenities input[type='checkbox']").change(function () {
+		if (this.checked) {
+			amenitiesDict[this.dataset.name] = this.dataset.id;
 		} else {
-			delete tt[el.dataset.name];
+			delete amenitiesDict[this.dataset.name];
 		}
-		if (el.id === "amenity_filter") {
-			$(".amenities h4").text(Object.keys(amenities).sort().join(", "));
-		} else {
-			$(".locations h4").text(
-				Object.keys(Object.assign({}, states, cities)).sort().join(", ")
-			);
-		}
+		$("div.amenities h4").text(Object.keys(amenitiesDict).join(", "));
 	});
 
-	// get status of API
-	$.getJSON("http://0.0.0.0:5001/api/v1/status/", (data) => {
-		if (data.status === "OK") {
-			$("div#api_status").addClass("available");
-		} else {
-			$("div#api_status").removeClass("available");
+	// Updates locations h4 tag with states or cities dataset name
+  function updateLocations(statesDict, citiesDict) {
+    const locations = Object.assign({}, statesDict, citiesDict);
+    if (Object.values(locations).length === 0) {
+      $('.locations h4').html('&nbsp;');
+    } else {
+      $('.locations h4').text(Object.keys(locations).join(', '));
+    }
+
+		// Check if no input checkboxes are checked
+		if ($('input[type="checkbox"]:checked').length === 0) {
+			$('.locations h4').html('&nbsp;');
+
+			for (const key in statesDict) {
+				delete statesDict[key];
+			}
+			for (const key in citiesDict) {
+				delete citiesDict[key]
+			}
 		}
+	}
+
+	// Stores/deletes states or cities data items
+  const statesDict = {};
+	const citiesDict = {};
+	$(".locations > ul > li > input[type='checkbox']").change(function () {
+		if (this.checked) {
+			statesDict[this.dataset.name] = this.dataset.id;
+      $(this).siblings("ul").find("input[type='checkbox']").prop("checked", true);
+			$(this).siblings("ul").find("input[type='checkbox']").each(function () {
+				if ($(this).prop("checked")) {
+					citiesDict[this.dataset.name] = this.dataset.id;
+				}
+			});
+		} else {
+			delete statesDict[this.dataset.name];
+      $(this).siblings("ul").find("input[type='checkbox']").prop("checked", false);
+			$(this).siblings("ul").find("input[type='checkbox']").each(function () {
+				if (!$(this).prop("checked")) {
+					delete citiesDict[this.dataset.name];
+				}
+			});
+		}
+		updateLocations(statesDict, citiesDict);
 	});
 
-	// fetch data about places
-	$.post({
-		url: `${HOST}/api/v1/places_search`,
-		data: JSON.stringify({}),
-		headers: {
-			"Content-Type": "application/json",
-		},
-		success: (data) => {
-			data.forEach((place) =>
-				$("section.places").append(
-					`<article>
-			<div class="title_box">
-			<h2>${place.name}</h2>
-			<div class="price_by_night">$${place.price_by_night}</div>
-			</div>
-			<div class="information">
-			<div class="max_guest">${place.max_guest} Guest${
-						place.max_guest !== 1 ? "s" : ""
-					}</div>
-			<div class="number_rooms">${place.number_rooms} Bedroom${
-						place.number_rooms !== 1 ? "s" : ""
-					}</div>
-			<div class="number_bathrooms">${place.number_bathrooms} Bathroom${
-						place.number_bathrooms !== 1 ? "s" : ""
-					}</div>
-			</div> 
-			<div class="description">
-			${place.description}
-			</div>
-				</article>`
-				)
-			);
-		},
-		dataType: "json",
+	// Stores/deletes cities data items
+	$(".locations ul ul li input[type='checkbox']").change(function () {
+		if (this.checked) {
+			citiesDict[this.dataset.name] = this.dataset.id;
+		} else {
+			delete citiesDict[this.dataset.name];
+		}
+    updateLocations(statesDict, citiesDict);
 	});
 
-	// search places
-	$(".filters button").bind("click", searchPlace);
-	searchPlace();
+  // Get status of API
+  $.getJSON("http://192.168.8.103:5001/api/v1/status/", function(data) {
+    if (data.status === "OK") {
+      $("div#api_status").addClass("available");
+    } else {
+      $("div#api_status").removeClass("available");
+    }
+  });
+
+  // Function to send post request to API
+  function placeRequest(filters) {
+    $("section.places").empty();
+
+    $.ajax({
+      url: "http://192.168.8.103:5001/api/v1/places_search/",
+      method: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(filters),
+      success: function(response) {
+        response.forEach(function(place) {
+          $("section.places").append(
+            `<article>
+            <div class="title_box">
+              <h2>${place.name}</h2>
+              <div class="price_by_night">${place.price_by_night}</div>
+            </div>
+            <div class="information">
+              <div class="max_guest">${place.max_guest} Guest${place.max_guest > 1 ? "s" : ""}</div>
+              <div class="number_rooms">${place.number_rooms} Bedroom${place.number_rooms > 1 ? "s" : ""}</div>
+              <div class="number_bathrooms">${place.number_bathrooms} Bathroom${place.number_bathrooms > 1 ? "s" : ""}</div>
+            </div>
+            <div class="description">${place.description}</div>
+            </article>`
+          )
+        });
+      }
+    });
+  }
+
+  // Send new post request when search is clicked
+  $("button").click(function() {
+    const filters = {
+      amenities: Object.values(amenitiesDict),
+      states: Object.values(statesDict),
+      cities: Object.values(citiesDict)
+    };
+    placeRequest(filters);
+  });
+
+  placeRequest({});
 });
