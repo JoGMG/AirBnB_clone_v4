@@ -68,9 +68,9 @@ $(document).ready(function () {
 	});
 
   // Get status of API
-  $.getJSON("http://192.168.8.102:5001/api/v1/status/", function(data) {
+  $.getJSON("http://192.168.8.103:5001/api/v1/status/", function(data) {
     if (data.status === "OK") {
-      $("div#api_status").addClass("available");
+      $("div#api_status").addClass("available").css("background-color", "#ff545f");
     } else {
       $("div#api_status").removeClass("available");
     }
@@ -78,16 +78,16 @@ $(document).ready(function () {
 
   // Function to send post request to API to get places
   function placeRequest(filters) {
-    $("section.places").empty();
+    $("div.boxes").empty();
 
     $.ajax({
-      url: "http://192.168.8.102:5001/api/v1/places_search/",
+      url: "http://192.168.8.103:5001/api/v1/places_search/",
       method: "POST",
       contentType: "application/json",
       data: JSON.stringify(filters),
       success: function(response) {
         response.forEach(function(place) {
-          $("section.places").append(
+          $("div.boxes").append(
             `<article>
 							<div class="place_header">
 								<h2>${place.name}</h2>
@@ -117,7 +117,7 @@ $(document).ready(function () {
 
 	// Function to fetch and display reviews
 	function reviewRequest(placeId) {
-		const url = `http://192.168.8.102:5001/api/v1/places/${placeId}/reviews`;
+		const url = `http://192.168.8.103:5001/api/v1/places/${placeId}/reviews`;
 
 		$.getJSON(url, function(reviews) {
 			$(`.reviews[place-id="${placeId}"] h2`).text(reviews.length + " " + (reviews.length > 1 ? "Reviews" : "Review"))
@@ -127,8 +127,8 @@ $(document).ready(function () {
 				const $reviewHeader = $reviewContainer.find('.review_header');
 				if ($(this).text() === 'show') {
 					reviews.forEach(function(review) {
-						$.getJSON(`http://192.168.8.102:5001/api/v1/users/${review.user_id}`, function (user) {
-							
+						$.getJSON(`http://192.168.8.103:5001/api/v1/users/${review.user_id}`, function (user) {
+
 							date = new Date(review.created_at);
 							date = date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
 							$reviewList.append(
