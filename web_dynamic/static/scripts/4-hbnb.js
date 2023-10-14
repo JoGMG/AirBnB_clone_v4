@@ -11,7 +11,7 @@ $(document).ready(function () {
 	});
 
   // Get status of API
-  $.getJSON("http://192.168.8.103:5001/api/v1/status/", function(data) {
+  $.getJSON("http://0.0.0.0:5001/api/v1/status/", function(data) {
     if (data.status === "OK") {
       $("div#api_status").addClass("available");
     } else {
@@ -24,7 +24,7 @@ $(document).ready(function () {
     $("section.places").empty();
 
     $.ajax({
-      url: "http://192.168.8.103:5001/api/v1/places_search/",
+      url: "http://0.0.0.0:5001/api/v1/places_search/",
       method: "POST",
       contentType: "application/json",
       data: JSON.stringify(filters),

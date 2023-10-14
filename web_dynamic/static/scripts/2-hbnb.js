@@ -11,7 +11,7 @@ $(document).ready(function () {
   });
 
   // get status of API
-  $.getJSON("http://192.168.8.103:5001/api/v1/status/", function(data) {
+  $.getJSON("http://0.0.0.0:5001/api/v1/status/", function(data) {
     if (data.status === "OK") {
       $("div#api_status").addClass("available");
     } else {
